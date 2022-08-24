@@ -1,81 +1,62 @@
 
-
+// ########    Сервер та роутер    ########
 const express = require ("express");
+const mainRouter = require('./routes/mainRoutes')
 const server = express();
+const createError = require('http-errors')
 
-let counterOfRequests = 0;
-
+// ########    Шаблони    ########
 server.set('view engine', 'ejs');
 server.set('views', './views');
 
+// ########    Статік    ########
 server.use(express.static('./pub'));
 
-// ############################################               Роути              ############################################
+// ########    Роути    ########
 
-server.use((req, res, next) => {
-    counterOfRequests++;
-    console.log(counterOfRequests);
-    next();
-})
+server.use('/', mainRouter);
 
-server.use('/video/home.mp4', (req, res, next) => {
+server.get('/video/home.mp4', (req, res, next) => {
     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     next();
 })
 
-server.get('/', (req,res) => {
-    res.render('main');
-})
-
-server.get('/123', (req,res) => {
-    res.send('123');
-})
-
-server.get('/products', (req,res) => {
-    const products = (require("./products"));
-    res.json(products);
-})
-
-server.get('/products/:id', (req, res, next) => {
-    const { id } = req.params;
-    const products = (require("./products"));
-
-    const idProd = Number(id);
-    const product = products.products_db.find(item => item.id === idProd);
-
-    if (product === undefined)
+// ########    Помилки    ########
+server.use((error, req, res, next) => {
+    if (error.status === 500)
     {
-        console.log("Товар не знайдено");
-        res.render('noProduct');
-    }
-
-    res.render('product', { product });
-})
-
-
-server.use((req, res, next) => {
-    if (res.statusCode===500)
-    {
-        console.log("Товар не знайдено");
+        console.log("Помилка:" + error.status);
         res.statusCode = 500;
         res.render('500');
-        return;
     }
-
-
+    if (error.status === 400)
+    {
+        console.log("Помилка:" + error.status);
+        res.statusCode = 400;
+        res.render('400');
+    }
+    if (error.status === 404)
+    {
+        console.log("Помилка:" + error.status);
+        res.statusCode = 404;
+        res.render('404');
+    }
+    else {
+        res.statusCode = 404;
+        res.render('404');
+    }
 
     res.statusCode = 404;
     res.render('404');
-    next();
+
+    console.log('error.status: ' + error.status)
+    console.log('error.statusCode: ' + error.statusCode)
+    console.log('error.message: ' + error.message)
+
 })
 
 
 
 
-
-
-
-
-
-
+// ########    Старт сервера    ########
 server.listen(3000); console.log('server listen on localhost, port 3000');
