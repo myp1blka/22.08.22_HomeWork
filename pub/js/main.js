@@ -12,10 +12,10 @@ const getOverHere = async () => {
 
 const drawProducts = (result) => {
     let productParams = ""; // очистити накопичувальну HTML змінну
-    let mainKey ;
+    let mainKey;
 
     for (mainKey in result.data) { // перелічити всі параметри в об'єкті та їх значення
-        console.log('key = ' + result.data[mainKey]);
+        console.log('key = ' + mainKey);
     }
 
     for (let i in result.data[mainKey]) {

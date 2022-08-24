@@ -8,18 +8,15 @@
     <link rel="stylesheet" href="/style/main.css" >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
 
-    <title><%= product.title %></title>
+    <title>No Product</title>
 </head>
 <body>
     
     <div class="logo"><a href="http://127.0.0.1:3000/"><img width="30%" src="/pic/cat.jpg"></a></div>
-    <div class="sitehead">Wellcome</div>
-    <div class="menu-block">Menu</div>
     <div class="products-div" id="products-div">
-        <div class="products-div"><a href="http://127.0.0.1:3000/"><<<--- Назад</a></div>
-        <div><img height="150px" width="150px" src="<%= product.picture %>"><br>
-            <b><%= product.title %> </b> <br>
-            <%= product.price %> грн.</div>
+        <div class="product"><a href="http://127.0.0.1:3000/"><<<--- Назад</a></div>
+        <div class="product"><b>Помилка пошуку товару </b></div>
+        <div class="product">Товару з таким ID  кодом не існує</div>
     </div>
 
 </body>

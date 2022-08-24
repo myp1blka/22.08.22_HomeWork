@@ -36,18 +36,34 @@ server.get('/products', (req,res) => {
     res.json(products);
 })
 
-server.get('/products/:id', (req, res) => {
+server.get('/products/:id', (req, res, next) => {
     const { id } = req.params;
     const products = (require("./products"));
 
     const idProd = Number(id);
     const product = products.products_db.find(item => item.id === idProd);
 
+    if (product === undefined)
+    {
+        console.log("Товар не знайдено");
+        res.render('noProduct');
+    }
+
     res.render('product', { product });
-    //res.send('product id is: ' + id);
 })
 
+
 server.use((req, res, next) => {
+    if (res.statusCode===500)
+    {
+        console.log("Товар не знайдено");
+        res.statusCode = 500;
+        res.render('500');
+        return;
+    }
+
+
+
     res.statusCode = 404;
     res.render('404');
     next();
