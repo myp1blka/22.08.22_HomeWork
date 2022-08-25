@@ -37,6 +37,11 @@ router.get('/123', (req, res) => {
     res.send('123 ?? серйозно ?? тобі сумно чи як? :)');
 })
 
+router.get('/video/home.mp4', (req, res, next) => {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    next();
+})
+
 router.get('/products', (req, res) => {
     const products = (require("../products"));
     res.json(products);
